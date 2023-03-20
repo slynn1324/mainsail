@@ -69,6 +69,11 @@
             <the-notification-menu></the-notification-menu>
             <the-settings-menu></the-settings-menu>
             <the-top-corner-menu></the-top-corner-menu>
+
+            <v-btn @click="btnRefresh">
+                <v-icon class="mr-md-2">{{mdiRefresh}}</v-icon>
+            </v-btn>
+        
         </v-app-bar>
         <v-snackbar v-model="uploadSnackbar.status" :timeout="-1" :value="true" fixed right bottom dark>
             <strong>{{ $t('App.TopBar.Uploading') }} {{ uploadSnackbar.filename }}</strong>
@@ -119,7 +124,7 @@ import PrinterSelector from '@/components/ui/PrinterSelector.vue'
 import MainsailLogo from '@/components/ui/MainsailLogo.vue'
 import TheNotificationMenu from '@/components/notifications/TheNotificationMenu.vue'
 import { topbarHeight } from '@/store/variables'
-import { mdiAlertOctagonOutline, mdiContentSave, mdiFileUpload, mdiClose, mdiCloseThick } from '@mdi/js'
+import { mdiAlertOctagonOutline, mdiContentSave, mdiFileUpload, mdiClose, mdiCloseThick, mdiRefresh } from '@mdi/js'
 
 type uploadSnackbar = {
     status: boolean
@@ -146,6 +151,7 @@ type uploadSnackbar = {
 })
 export default class TheTopbar extends Mixins(BaseMixin) {
     mdiAlertOctagonOutline = mdiAlertOctagonOutline
+    mdiRefresh = mdiRefresh
     mdiContentSave = mdiContentSave
     mdiFileUpload = mdiFileUpload
     mdiClose = mdiClose
@@ -243,6 +249,10 @@ export default class TheTopbar extends Mixins(BaseMixin) {
             ['standby', 'complete', 'cancelled'].includes(this.printer_state) &&
             !this.boolHideUploadAndPrintButton
         )
+    }
+
+    btnRefresh() {
+        window.location.reload();
     }
 
     btnEmergencyStop() {

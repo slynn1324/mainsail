@@ -15,4 +15,5 @@ export interface GuiWebcamStateWebcam {
     rotate?: number
     flipX: boolean
     flipY: boolean
+    autoplay: boolean
 }
