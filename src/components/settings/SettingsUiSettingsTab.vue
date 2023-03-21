@@ -166,12 +166,6 @@
                     :dynamic-slot-width="true">
                     <v-switch v-model="disableFanAnimation" hide-details class="mt-0" />
                 </settings-row>
-                <settings-row
-                    title="Autoplay WebRTC Video"
-                    sub-title="Applies per client (local storage)"
-                    :dynamic-slot-width="true">
-                    <v-switch v-model="autoplayWebRtcVideo" hide-details class="mt-0" />
-                </settings-row>
             </v-card-text>
         </v-card>
     </div>
@@ -352,15 +346,6 @@ export default class SettingsUiSettingsTab extends Mixins(BaseMixin) {
 
     set disableFanAnimation(newVal) {
         this.$store.dispatch('gui/saveSetting', { name: 'uiSettings.disableFanAnimation', value: newVal })
-    }
-
-    get autoplayWebRtcVideo() {
-        return localStorage.getItem("autoplayWebRtcVideo") == "Y";
-    }
-
-    set autoplayWebRtcVideo(newVal){
-        console.log("autoplayWebRtcVideo newVal=", newVal, typeof(newVal));
-        localStorage.setItem("autoplayWebRtcVideo", newVal ? "Y" : "N" );
     }
 
     clearColorObject(color: any): string {

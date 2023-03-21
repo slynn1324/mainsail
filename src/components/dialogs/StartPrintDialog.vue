@@ -5,6 +5,12 @@
             <v-card-title class="headline">{{ $t('Dialogs.StartPrint.Headline') }}</v-card-title>
             <v-card-text class="pb-0">
                 {{ $t('Dialogs.StartPrint.DoYouWantToStartFilename', { filename: file.filename }) }}
+                <v-divider class="mt-3 mb-2"></v-divider>
+                <div>
+                    Filament Type: {{ file.filament_type || "--" }} | {{ file.filament_name || "--" }} <br />
+                    Nozzle Diameter: {{ file.nozzle_diameter || "--" }} <br />
+                    Print Time: {{ file.estimated_time ? formatPrintTime(file.estimated_time) : "--" }}
+                </div>
             </v-card-text>
             <template v-if="moonrakerComponents.includes('timelapse')">
                 <v-divider class="mt-3 mb-2"></v-divider>
@@ -31,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Mixins, Prop } from 'vue-property-decorator'
+import { Component, Mixins, Prop, Watch } from 'vue-property-decorator'
 import BaseMixin from '@/components/mixins/base'
 import { FileStateGcodefile } from '@/store/files/types'
 import SettingsRow from '@/components/settings/SettingsRow.vue'
@@ -50,6 +56,11 @@ export default class StartPrintDialog extends Mixins(BaseMixin) {
 
     @Prop({ required: true })
     declare file: FileStateGcodefile
+
+    @Watch('file')
+    fileChanged(newVal: FileStateGcodefile): void {
+        console.log(newVal);
+    }
 
     get timelapseEnabled() {
         return this.$store.state.server.timelapse?.settings?.enabled ?? false
@@ -76,5 +87,33 @@ export default class StartPrintDialog extends Mixins(BaseMixin) {
     closeDialog() {
         this.$emit('closeDialog')
     }
+
+    // duplicated from Gcodefiles.vue
+    formatPrintTime(totalSeconds: number) {
+        if (totalSeconds) {
+            let output = ''
+
+            const days = Math.floor(totalSeconds / (3600 * 24))
+            if (days) {
+                totalSeconds %= 3600 * 24
+                output += days + 'd'
+            }
+
+            const hours = Math.floor(totalSeconds / 3600)
+            totalSeconds %= 3600
+            if (hours) output += ' ' + hours + 'h'
+
+            const minutes = Math.floor(totalSeconds / 60)
+            if (minutes) output += ' ' + minutes + 'm'
+
+            const seconds = totalSeconds % 60
+            if (seconds) output += ' ' + seconds.toFixed(0) + 's'
+
+            return output
+        }
+
+        return '--'
+    }
+
 }
 </script>
