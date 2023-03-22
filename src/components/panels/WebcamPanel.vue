@@ -7,7 +7,17 @@
         :title="$t('Panels.WebcamPanel.Headline')"
         :collapsible="$route.fullPath !== '/cam'"
         card-class="webcam-panel"
-        :margin-bottom="currentPage !== 'page'">
+        :margin-bottom="currentPage !== 'page'"
+        > 
+        <template #detail>
+            <span style="font-family: monospace;" v-if="$route.fullPath == '/cam'">
+                {{ printEstimatedTimeAvg ? formatDuration(printEstimatedTimeAvg) : '--' }} &nbsp;
+                {{ printPercent }}% &nbsp;
+                <span v-for="heater in heaters">
+                    <v-icon small :color="heater.iconColor">{{ heater.icon }}</v-icon>&nbsp;{{ Math.round(heater.temperature) }}&deg;/{{ Math.round(heater.target) }}&deg; &nbsp;
+                </span>
+            </span>
+        </template>
         <template v-if="webcams.length > 1" #buttons>
             <v-menu :offset-y="true" title="Webcam">
                 <template #activator="{ on, attrs }">
@@ -144,5 +154,28 @@ export default class WebcamPanel extends Mixins(BaseMixin, WebcamMixin) {
             }
         )
     }
+
+    get heaters(): any {
+        console.log(this.$store.getters);
+        return this.$store.getters['printer/getHeaters'];
+    }
+
+    get printPercent() : any {
+        return this.$store.getters['printer/getPrintPercent'];
+    }
+
+    get printEstimatedTimeAvg() : any {
+        return this.$store.getters['printer/getEstimatedTimeAvg'];
+    }
+
+    formatDuration(seconds: number) {
+        let h = Math.floor(seconds / 3600)
+        seconds %= 3600
+        let m = ('0' + Math.floor(seconds / 60)).slice(-2)
+        let s = ('0' + (seconds % 60).toFixed(0)).slice(-2)
+
+        return h + ':' + m + ':' + s
+    }
+
 }
 </script>

@@ -4,6 +4,7 @@ import { GuiState, GuiStateLayoutoption } from '@/store/gui/types'
 import { RootState } from '@/store/types'
 import { getDefaultState } from './index'
 import { themeDir } from '@/store/variables'
+import LocalStorageHelper from '@/plugins/localStorageHelper'
 
 export const actions: ActionTree<GuiState, RootState> = {
     reset({ commit, dispatch }) {
@@ -421,10 +422,16 @@ export const actions: ActionTree<GuiState, RootState> = {
         if (!payload.value) commit('addClosePanel', { name: payload.name, viewport: payload.viewport })
         else commit('removeClosePanel', { name: payload.name, viewport: payload.viewport })
 
-        dispatch('updateSettings', {
-            keyName: `dashboard.nonExpandPanels.${payload.viewport}`,
-            newVal: state.dashboard.nonExpandPanels[payload.viewport],
-        })
+        // if localPanelStateStorage is enabled on this client, supress dispatching the updateSettings event to prevent database setting update,
+        // and instead update the value in local storage.
+        if ( LocalStorageHelper.isUseLocalStorageForPanelExpansion() ){
+            LocalStorageHelper.setDashboardNonExpandPanels(state.dashboard.nonExpandPanels);
+        } else {
+            dispatch('updateSettings', {
+                keyName: `dashboard.nonExpandPanels.${payload.viewport}`,
+                newVal: state.dashboard.nonExpandPanels[payload.viewport],
+            })
+        }
     },
 
     showStatusInHistoryList({ commit, dispatch, state }, name) {

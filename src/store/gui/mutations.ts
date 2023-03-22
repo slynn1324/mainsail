@@ -3,6 +3,7 @@ import { getDefaultState } from './index'
 import { MutationTree } from 'vuex'
 import { GuiState } from '@/store/gui/types'
 import { setDataDeep } from '@/plugins/helpers'
+import LocalStorageHelper from '@/plugins/localStorageHelper'
 
 export const mutations: MutationTree<GuiState> = {
     reset(state) {
@@ -10,6 +11,15 @@ export const mutations: MutationTree<GuiState> = {
     },
 
     setData(state, payload) {
+        
+        // if localPanelStateStorage is enabled, override the dashoard.nonExpandPanels settings before applying the payload to the state.
+        if ( LocalStorageHelper.isUseLocalStorageForPanelExpansion() ){
+            let localValue = LocalStorageHelper.getDashboardNonExpandPanels();
+            if ( localValue ){
+                payload.dashboard.nonExpandPanels = localValue;
+            }
+        }
+        
         setDataDeep(state, payload)
     },
 

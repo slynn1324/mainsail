@@ -51,6 +51,7 @@
             </v-toolbar-title>
             <slot name="buttons-title"></slot>
             <v-spacer></v-spacer>
+            <slot name="detail"></slot>
             <v-toolbar-items v-show="hasButtonsSlot || collapsible">
                 <div v-if="expand || !hideButtonsOnCollapse" class="d-flex align-center">
                     <slot name="buttons"></slot>

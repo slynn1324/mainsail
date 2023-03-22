@@ -1,7 +1,7 @@
 {
     "defaultLocale": "en",
-    "hostname": null,
-    "port": null,
+    "hostname": "192.168.1.6",
+    "port": 7125,
     "instancesDB": "moonraker",
     "instances": []
 }
