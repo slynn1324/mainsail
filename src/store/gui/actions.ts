@@ -424,8 +424,8 @@ export const actions: ActionTree<GuiState, RootState> = {
 
         // if localPanelStateStorage is enabled on this client, supress dispatching the updateSettings event to prevent database setting update,
         // and instead update the value in local storage.
-        if ( LocalStorageHelper.isUseLocalStorageForPanelExpansion() ){
-            LocalStorageHelper.setDashboardNonExpandPanels(state.dashboard.nonExpandPanels);
+        if (LocalStorageHelper.isUseLocalStorageForPanelExpansion()) {
+            LocalStorageHelper.setDashboardNonExpandPanels(state.dashboard.nonExpandPanels)
         } else {
             dispatch('updateSettings', {
                 keyName: `dashboard.nonExpandPanels.${payload.viewport}`,

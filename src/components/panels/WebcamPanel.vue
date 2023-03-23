@@ -7,14 +7,14 @@
         :title="$t('Panels.WebcamPanel.Headline')"
         :collapsible="$route.fullPath !== '/cam'"
         card-class="webcam-panel"
-        :margin-bottom="currentPage !== 'page'"
-        > 
+        :margin-bottom="currentPage !== 'page'">
         <template #detail>
-            <span style="font-family: monospace;" v-if="$route.fullPath == '/cam'">
-                {{ printEstimatedTimeAvg ? formatDuration(printEstimatedTimeAvg) : '--' }} &nbsp;
-                {{ printPercent }}% &nbsp;
+            <span style="font-family: monospace" v-if="$route.fullPath == '/cam'">
+                {{ printEstimatedTimeAvg ? formatDuration(printEstimatedTimeAvg) : '--' }} &nbsp; {{ printPercent }}%
+                &nbsp;
                 <span v-for="heater in heaters">
-                    <v-icon small :color="heater.iconColor">{{ heater.icon }}</v-icon>&nbsp;{{ Math.round(heater.temperature) }}&deg;/{{ Math.round(heater.target) }}&deg; &nbsp;
+                    <v-icon small :color="heater.iconColor">{{ heater.icon }}</v-icon>
+                    &nbsp;{{ Math.round(heater.temperature) }}&deg;/{{ Math.round(heater.target) }}&deg; &nbsp;
                 </span>
             </span>
         </template>
@@ -74,7 +74,9 @@
                         <webcam-webrtc-camerastreamer :cam-settings="currentCam" />
                     </template>
                     <template v-else-if="currentCam.service === 'webrtc-rtspsimpleserver'">
-                        <webcam-webrtc-rtspsimpleserver :cam-settings="currentCam" :collapsible="$route.fullPath !== '/cam'" />
+                        <webcam-webrtc-rtspsimpleserver
+                            :cam-settings="currentCam"
+                            :collapsible="$route.fullPath !== '/cam'" />
                     </template>
                     <template v-else>
                         <p class="text-center py-3 font-italic">{{ $t('Panels.WebcamPanel.UnknownWebcamService') }}</p>
@@ -157,15 +159,15 @@ export default class WebcamPanel extends Mixins(BaseMixin, WebcamMixin) {
 
     // additional functions for stats in panel header on webcam page
     get heaters(): any {
-        return this.$store.getters['printer/getHeaters'];
+        return this.$store.getters['printer/getHeaters']
     }
 
-    get printPercent() : any {
-        return this.$store.getters['printer/getPrintPercent'];
+    get printPercent(): any {
+        return this.$store.getters['printer/getPrintPercent']
     }
 
-    get printEstimatedTimeAvg() : any {
-        return this.$store.getters['printer/getEstimatedTimeAvg'];
+    get printEstimatedTimeAvg(): any {
+        return this.$store.getters['printer/getEstimatedTimeAvg']
     }
 
     formatDuration(seconds: number) {
@@ -176,6 +178,5 @@ export default class WebcamPanel extends Mixins(BaseMixin, WebcamMixin) {
 
         return h + ':' + m + ':' + s
     }
-
 }
 </script>

@@ -71,9 +71,8 @@
             <the-top-corner-menu></the-top-corner-menu>
 
             <v-btn @click="btnRefresh">
-                <v-icon class="mr-md-2">{{mdiRefresh}}</v-icon>
+                <v-icon class="mr-md-2">{{ mdiRefresh }}</v-icon>
             </v-btn>
-        
         </v-app-bar>
         <v-snackbar v-model="uploadSnackbar.status" :timeout="-1" :value="true" fixed right bottom dark>
             <strong>{{ $t('App.TopBar.Uploading') }} {{ uploadSnackbar.filename }}</strong>
@@ -252,7 +251,7 @@ export default class TheTopbar extends Mixins(BaseMixin) {
     }
 
     btnRefresh() {
-        window.location.reload();
+        window.location.reload()
     }
 
     btnEmergencyStop() {

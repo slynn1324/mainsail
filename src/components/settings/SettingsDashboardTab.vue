@@ -7,7 +7,6 @@
 <template>
     <v-card flat>
         <v-card-text>
-            
             <v-row>
                 <v-col class="text-center">
                     <v-btn-toggle v-model="currentViewport" class="mx-auto" mandatory>
@@ -37,20 +36,20 @@
                     </v-btn-toggle>
                 </v-col>
             </v-row>
-            
+
             <v-row>
                 <v-col class="dashboard-rows-container">
                     <component :is="currentTab"></component>
                 </v-col>
             </v-row>
 
-           <!--<settings-row :title="$t('Settings.GeneralTab.PrinterName').toString()">-->
-            <settings-row style="margin-top: -10px;" 
+            <!--<settings-row :title="$t('Settings.GeneralTab.PrinterName').toString()">-->
+            <settings-row
+                style="margin-top: -10px"
                 title="Use Local Storage for Panel Expansion"
                 sub-title="setting applies per-browser">
                 <v-switch v-model="useLocalStorageForPanelExpansion" hide-details class="mt-0"></v-switch>
             </settings-row>
-           
         </v-card-text>
     </v-card>
 </template>
@@ -94,11 +93,11 @@ export default class SettingsDashboardTab extends Mixins(BaseMixin) {
         return 'settings-dashboard-tab-' + this.currentViewport
     }
 
-    set useLocalStorageForPanelExpansion(enabled: boolean){
-        LocalStorageHelper.setUseLocalStorageForPanelExpansion(enabled);
+    set useLocalStorageForPanelExpansion(enabled: boolean) {
+        LocalStorageHelper.setUseLocalStorageForPanelExpansion(enabled)
     }
 
-    get useLocalStorageForPanelExpansion() : boolean {
+    get useLocalStorageForPanelExpansion(): boolean {
         return LocalStorageHelper.isUseLocalStorageForPanelExpansion()
     }
 }

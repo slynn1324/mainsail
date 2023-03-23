@@ -11,15 +11,14 @@ export const mutations: MutationTree<GuiState> = {
     },
 
     setData(state, payload) {
-        
         // if localPanelStateStorage is enabled, override the dashoard.nonExpandPanels settings before applying the payload to the state.
-        if ( LocalStorageHelper.isUseLocalStorageForPanelExpansion() ){
-            let localValue = LocalStorageHelper.getDashboardNonExpandPanels();
-            if ( localValue ){
-                payload.dashboard.nonExpandPanels = localValue;
+        if (LocalStorageHelper.isUseLocalStorageForPanelExpansion()) {
+            let localValue = LocalStorageHelper.getDashboardNonExpandPanels()
+            if (localValue) {
+                payload.dashboard.nonExpandPanels = localValue
             }
         }
-        
+
         setDataDeep(state, payload)
     },
 

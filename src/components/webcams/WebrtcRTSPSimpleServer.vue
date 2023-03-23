@@ -5,14 +5,7 @@
 </style>
 
 <template>
-    <video
-        ref="video"
-        :style="webcamStyle"
-        class="webcamImage"
-        autoplay
-        playsinline
-        muted
-        controls />
+    <video ref="video" :style="webcamStyle" class="webcamImage" autoplay playsinline muted controls />
 </template>
 
 <script lang="ts">
@@ -22,12 +15,11 @@ import ConsoleTable from '../console/ConsoleTable.vue'
 
 @Component
 export default class WebrtcRTSPSimpleServer extends Mixins(BaseMixin) {
-
     @Prop({ required: true })
     camSettings: any
 
-    @Prop({default: false})
-    collapsible : boolean | undefined
+    @Prop({ default: false })
+    collapsible: boolean | undefined
 
     @Ref()
     declare video: HTMLVideoElement
@@ -38,9 +30,9 @@ export default class WebrtcRTSPSimpleServer extends Mixins(BaseMixin) {
     private webRtcPc: any
     private webRtcRestartTimeout: any
 
-    beforeMount(){
+    beforeMount() {
         // if the panel is not expanded, then flag as already terminated so we don't try to start the connection
-        this.webRtcTerminated = !this.expanded;
+        this.webRtcTerminated = !this.expanded
     }
 
     mounted() {
@@ -65,48 +57,47 @@ export default class WebrtcRTSPSimpleServer extends Mixins(BaseMixin) {
         return ''
     }
 
-    isWebRtcUrl(val : string): boolean {
+    isWebRtcUrl(val: string): boolean {
         return val.startsWith('ws://') || val.startsWith('wss://')
     }
 
     get url() {
-        return this.camSettings.urlStream;
+        return this.camSettings.urlStream
     }
 
     // stop and restart the video if the url changes
     @Watch('url')
-    changedUrl(newUrl : any) {
+    changedUrl(newUrl: any) {
         this.webRtcTerminate()
-        if ( this.isWebRtcUrl(newUrl) ){
-            this.webRtcStart();
+        if (this.isWebRtcUrl(newUrl)) {
+            this.webRtcStart()
         }
     }
 
-    get expanded() : any {
+    get expanded(): any {
         return !this.collapsible || this.$store.getters['gui/getPanelExpand']('webcam-panel', this.viewport)
     }
 
     // start or stop the video when the expand state changes
-    @Watch("expanded")
-    expandChanged(newExpanded : any) : void {
-        if ( !newExpanded ){
+    @Watch('expanded')
+    expandChanged(newExpanded: any): void {
+        if (!newExpanded) {
             this.webRtcTerminate()
         } else {
             this.webRtcStart()
         }
     }
 
-
     // webrtc player methods
     // adapated from sample player in https://github.com/mrlt8/docker-wyze-bridge
     webRtcStart() {
         // unterminate.. we're starting again.
         this.webRtcTerminated = false
-        
+
         // clear any potentially open restart timeout
         clearTimeout(this.webRtcRestartTimeout)
         this.webRtcRestartTimeout = null
-        
+
         console.log('[webcam-rtspsimpleserver] web socket connecting')
 
         let url = this.url
@@ -140,8 +131,8 @@ export default class WebrtcRTSPSimpleServer extends Mixins(BaseMixin) {
         this.webRtcTerminated = true
 
         try {
-            this.video.pause();
-        } catch (err){
+            this.video.pause()
+        } catch (err) {
             // ignore -- make sure we close down the sockets anyway
         }
 
@@ -231,7 +222,7 @@ export default class WebrtcRTSPSimpleServer extends Mixins(BaseMixin) {
         this.webRtcWs = null
 
         this.webRtcPc?.close()
-        this.webRtcPc = null;
+        this.webRtcPc = null
 
         if (this.webRtcTerminated) {
             return

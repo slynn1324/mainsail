@@ -7,9 +7,11 @@
                 {{ $t('Dialogs.StartPrint.DoYouWantToStartFilename', { filename: file.filename }) }}
                 <v-divider class="mt-3 mb-2"></v-divider>
                 <div>
-                    Filament Type: {{ file.filament_type || "--" }} | {{ file.filament_name || "--" }} <br />
-                    Nozzle Diameter: {{ file.nozzle_diameter || "--" }} <br />
-                    Print Time: {{ file.estimated_time ? formatPrintTime(file.estimated_time) : "--" }}
+                    Filament Type: {{ file.filament_type || '--' }} | {{ file.filament_name || '--' }}
+                    <br />
+                    Nozzle Diameter: {{ file.nozzle_diameter || '--' }}
+                    <br />
+                    Print Time: {{ file.estimated_time ? formatPrintTime(file.estimated_time) : '--' }}
                 </div>
             </v-card-text>
             <template v-if="moonrakerComponents.includes('timelapse')">
@@ -59,7 +61,7 @@ export default class StartPrintDialog extends Mixins(BaseMixin) {
 
     @Watch('file')
     fileChanged(newVal: FileStateGcodefile): void {
-        console.log(newVal);
+        console.log(newVal)
     }
 
     get timelapseEnabled() {
@@ -114,6 +116,5 @@ export default class StartPrintDialog extends Mixins(BaseMixin) {
 
         return '--'
     }
-
 }
 </script>
