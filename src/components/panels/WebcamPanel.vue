@@ -74,7 +74,7 @@
                         <webcam-webrtc-camerastreamer :cam-settings="currentCam" />
                     </template>
                     <template v-else-if="currentCam.service === 'webrtc-rtspsimpleserver'">
-                        <webcam-webrtc-rtspsimpleserver :cam-settings="currentCam" />
+                        <webcam-webrtc-rtspsimpleserver :cam-settings="currentCam" :collapsible="$route.fullPath !== '/cam'" />
                     </template>
                     <template v-else>
                         <p class="text-center py-3 font-italic">{{ $t('Panels.WebcamPanel.UnknownWebcamService') }}</p>
@@ -155,8 +155,8 @@ export default class WebcamPanel extends Mixins(BaseMixin, WebcamMixin) {
         )
     }
 
+    // additional functions for stats in panel header on webcam page
     get heaters(): any {
-        console.log(this.$store.getters);
         return this.$store.getters['printer/getHeaters'];
     }
 
