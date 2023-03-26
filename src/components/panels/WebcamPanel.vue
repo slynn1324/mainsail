@@ -10,12 +10,15 @@
         :margin-bottom="currentPage !== 'page'">
         <template #detail>
             <span style="font-family: monospace" v-if="$route.fullPath == '/cam'">
-                {{ printEstimatedTimeAvg ? formatDuration(printEstimatedTimeAvg) : '--' }} &nbsp; {{ printPercent }}%
-                &nbsp;
-                <span v-for="heater in heaters">
-                    <v-icon small :color="heater.iconColor">{{ heater.icon }}</v-icon>
-                    &nbsp;{{ Math.round(heater.temperature) }}&deg;/{{ Math.round(heater.target) }}&deg; &nbsp;
+                <span v-if="klipperReadyForGui">
+                    {{ printEstimatedTimeAvg ? formatDuration(printEstimatedTimeAvg) : '--' }} &nbsp; {{ Math.round(printPercent * 1000) / 10 }}%
+                    &nbsp;
+                    <span v-for="heater in heaters">
+                        <v-icon small :color="heater.iconColor">{{ heater.icon }}</v-icon>
+                        &nbsp;{{ Math.round(heater.temperature) }}&deg;/{{ Math.round(heater.target) }}&deg; &nbsp;
+                    </span>
                 </span>
+                <span v-else class="warning--text">klipper not ready &nbsp;</span>
             </span>
         </template>
         <template v-if="webcams.length > 1" #buttons>
@@ -104,7 +107,7 @@ import { Mixins, Prop } from 'vue-property-decorator'
 import BaseMixin from '../mixins/base'
 import Panel from '@/components/ui/Panel.vue'
 import { GuiWebcamStateWebcam } from '@/store/gui/webcams/types'
-import { mdiMenuDown, mdiViewGrid, mdiWebcam } from '@mdi/js'
+import { mdiMenuDown, mdiViewGrid, mdiWebcam, mdiAlertOutline } from '@mdi/js'
 import WebcamMixin from '@/components/mixins/webcam'
 
 @Component({
@@ -126,6 +129,7 @@ export default class WebcamPanel extends Mixins(BaseMixin, WebcamMixin) {
     mdiWebcam = mdiWebcam
     mdiMenuDown = mdiMenuDown
     mdiViewGrid = mdiViewGrid
+    mdiAlertOutline = mdiAlertOutline
 
     get webcams(): GuiWebcamStateWebcam[] {
         return this.$store.getters['gui/webcams/getWebcams']
@@ -159,7 +163,9 @@ export default class WebcamPanel extends Mixins(BaseMixin, WebcamMixin) {
 
     // additional functions for stats in panel header on webcam page
     get heaters(): any {
-        return this.$store.getters['printer/getHeaters']
+        let heaters = this.$store.getters['printer/getHeaters'];
+        console.log(this.$store);
+        return heaters;
     }
 
     get printPercent(): any {
@@ -178,5 +184,6 @@ export default class WebcamPanel extends Mixins(BaseMixin, WebcamMixin) {
 
         return h + ':' + m + ':' + s
     }
+
 }
 </script>
