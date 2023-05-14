@@ -1,7 +1,7 @@
 #
 # Builder stage, builds the application in node
 #
-FROM --platform=$BUILDPLATFORM node:18-alpine as builder
+FROM --platform=$BUILDPLATFORM docker.io/node:18-alpine as builder
 
 RUN apk add zip
 
@@ -17,7 +17,7 @@ RUN npm run build
 #
 # Runner stage, runs the application in nginx
 #
-FROM nginx:stable-alpine as runner
+FROM docker.io/nginx:stable-alpine as runner
 
 COPY --from=builder /app/.docker/nginx.conf  /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist/ /usr/share/nginx/html/

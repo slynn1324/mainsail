@@ -3,7 +3,7 @@ import { getDefaultState } from './index'
 import { MutationTree } from 'vuex'
 import { GuiState } from '@/store/gui/types'
 import { setDataDeep } from '@/plugins/helpers'
-import LocalStorageHelper from '@/plugins/localStorageHelper'
+import LocalStorageHelper from '@/plugins/LocalStorageHelper'
 
 export const mutations: MutationTree<GuiState> = {
     reset(state) {

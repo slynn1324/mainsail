@@ -4,7 +4,7 @@ import { GuiState, GuiStateLayoutoption } from '@/store/gui/types'
 import { RootState } from '@/store/types'
 import { getDefaultState } from './index'
 import { themeDir } from '@/store/variables'
-import LocalStorageHelper from '@/plugins/localStorageHelper'
+import LocalStorageHelper from '@/plugins/LocalStorageHelper'
 
 export const actions: ActionTree<GuiState, RootState> = {
     reset({ commit, dispatch }) {
