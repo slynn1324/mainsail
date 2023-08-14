@@ -287,6 +287,7 @@ export default class SettingsWebcamsTab extends Mixins(BaseMixin, WebcamMixin) {
             { value: 'hlsstream', text: this.$t('Settings.WebcamsTab.Hlsstream') },
             { value: 'jmuxer-stream', text: this.$t('Settings.WebcamsTab.JMuxerStream') },
             { value: 'webrtc-janus', text: this.$t('Settings.WebcamsTab.WebrtcJanus') },
+            { value: 'iframe', text: 'IFrame' }
         ]
     }
 

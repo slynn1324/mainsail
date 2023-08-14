@@ -69,6 +69,13 @@
             <the-notification-menu></the-notification-menu>
             <the-settings-menu></the-settings-menu>
             <the-top-corner-menu></the-top-corner-menu>
+
+            <v-btn @click="btnOpenCams" class="button-min-width-auto px-3 ">
+                <v-icon class="mr-md-2">{{ mdiGrid }}</v-icon>
+            </v-btn>
+            <v-btn @click="btnRefresh" class="button-min-width-auto px-3 ">
+                <v-icon class="mr-md-2">{{ mdiRefresh }}</v-icon>
+            </v-btn>
         </v-app-bar>
         <v-snackbar v-model="uploadSnackbar.status" :timeout="-1" :value="true" fixed right bottom dark>
             <strong>{{ $t('App.TopBar.Uploading') }} {{ uploadSnackbar.filename }}</strong>
@@ -119,7 +126,7 @@ import PrinterSelector from '@/components/ui/PrinterSelector.vue'
 import MainsailLogo from '@/components/ui/MainsailLogo.vue'
 import TheNotificationMenu from '@/components/notifications/TheNotificationMenu.vue'
 import { topbarHeight } from '@/store/variables'
-import { mdiAlertOctagonOutline, mdiContentSave, mdiFileUpload, mdiClose, mdiCloseThick } from '@mdi/js'
+import { mdiAlertOctagonOutline, mdiContentSave, mdiFileUpload, mdiClose, mdiCloseThick, mdiRefresh, mdiWebcam, mdiViewGrid } from '@mdi/js'
 
 type uploadSnackbar = {
     status: boolean
@@ -150,6 +157,9 @@ export default class TheTopbar extends Mixins(BaseMixin) {
     mdiFileUpload = mdiFileUpload
     mdiClose = mdiClose
     mdiCloseThick = mdiCloseThick
+    mdiRefresh = mdiRefresh
+    mdiWebcam = mdiWebcam
+    mdiGrid = mdiViewGrid
 
     topbarHeight = topbarHeight
 
@@ -266,6 +276,14 @@ export default class TheTopbar extends Mixins(BaseMixin) {
 
     btnUploadAndStart() {
         this.$refs.fileUploadAndStart.click()
+    }
+
+    btnRefresh() {
+        window.location.reload()
+    }
+
+    btnOpenCams() {
+        window.open('cams.html');
     }
 
     async uploadAndStart() {

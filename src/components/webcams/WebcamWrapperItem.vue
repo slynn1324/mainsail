@@ -27,6 +27,9 @@
         <template v-else-if="service === 'webrtc-mediamtx'">
             <webrtc-media-m-t-x :cam-settings="webcam" />
         </template>
+        <template v-else-if="service === 'iframe'">
+            <iframe-webcam :cam-settings="webcam" />
+        </template>
         <template v-else>
             <p class="text-center py-3 font-italic">{{ $t('Panels.WebcamPanel.UnknownWebcamService') }}</p>
         </template>
