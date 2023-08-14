@@ -30,6 +30,7 @@ export const getDefaultState = (): GuiState => {
         control: {
             style: 'bars',
             actionButton: null,
+            hideDuringPrint: false,
             enableXYHoming: false,
             feedrateXY: 100,
             stepsXY: [100, 10, 1],
@@ -112,7 +113,6 @@ export const getDefaultState = (): GuiState => {
             confirmUnsavedChanges: true,
             klipperRestartMethod: 'FIRMWARE_RESTART',
             tabSize: 2,
-            moonrakerRestartInstance: null,
         },
         gcodeViewer: {
             extruderColors: ['#E76F51FF', '#F4A261FF', '#E9C46AFF', '#2A9D8FFF', '#264653FF'],
@@ -158,6 +158,7 @@ export const getDefaultState = (): GuiState => {
             boolWideNavDrawer: false,
             boolHideUploadAndPrintButton: false,
             navigationStyle: 'iconsAndText',
+            defaultNavigationStateSetting: 'alwaysOpen',
             powerDeviceName: null,
             hideSaveConfigForBedMash: false,
             disableFanAnimation: false,
@@ -165,6 +166,7 @@ export const getDefaultState = (): GuiState => {
             boolBedScrewsDialog: true,
             boolScrewsTiltAdjustDialog: true,
             tempchartHeight: 250,
+            hideUpdateWarnings: false,
         },
         view: {
             blockFileUpload: false,
@@ -236,6 +238,7 @@ export const getDefaultState = (): GuiState => {
             tempchart: {
                 boolTempchart: true,
                 hiddenDataset: [],
+                hideMcuHostSensors: false,
                 autoscale: false,
                 datasetSettings: {},
             },

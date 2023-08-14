@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-app-bar app elevate-on-scroll :height="topbarHeight" class="topbar pa-0" clipped-left>
-            <v-app-bar-nav-icon tile @click.stop="naviDrawer = !naviDrawer"></v-app-bar-nav-icon>
+            <v-app-bar-nav-icon tile @click.stop="naviDrawer = !naviDrawer" />
             <router-link to="/">
                 <template v-if="sidebarLogo">
                     <img
@@ -17,12 +17,12 @@
                         class="nav-logo ml-4 mr-1 d-none d-sm-flex"
                         router
                         to="/"
-                        :ripple="false"></mainsail-logo>
+                        :ripple="false" />
                 </template>
             </router-link>
             <v-toolbar-title class="text-no-wrap ml-0 pl-2 mr-2">{{ printerName }}</v-toolbar-title>
-            <printer-selector v-if="countPrinters"></printer-selector>
-            <v-spacer></v-spacer>
+            <printer-selector v-if="countPrinters" />
+            <v-spacer />
             <input
                 ref="fileUploadAndStart"
                 type="file"
@@ -91,7 +91,7 @@
         </v-snackbar>
         <v-dialog v-model="showEmergencyStopDialog" width="400" :fullscreen="isMobile">
             <panel
-                :title="$t('EmergencyStopDialog.EmergencyStop').toString()"
+                :title="$t('EmergencyStopDialog.EmergencyStop')"
                 toolbar-color="error"
                 card-class="emergency-stop-dialog"
                 :icon="mdiAlertOctagonOutline"
@@ -103,7 +103,7 @@
                 </template>
                 <v-card-text>{{ $t('EmergencyStopDialog.AreYouSure') }}</v-card-text>
                 <v-card-actions>
-                    <v-spacer></v-spacer>
+                    <v-spacer />
                     <v-btn text @click="showEmergencyStopDialog = false">{{ $t('EmergencyStopDialog.No') }}</v-btn>
                     <v-btn color="primary" text @click="emergencyStop">{{ $t('EmergencyStopDialog.Yes') }}</v-btn>
                 </v-card-actions>
@@ -255,13 +255,31 @@ export default class TheTopbar extends Mixins(BaseMixin) {
         )
     }
 
+    get defaultNavigationStateSetting() {
+        return this.$store.state.gui?.uiSettings?.defaultNavigationStateSetting ?? 'alwaysOpen'
+    }
+
+    mounted() {
+        //this.naviDrawer = this.$vuetify.breakpoint.lgAndUp
+        switch (this.defaultNavigationStateSetting) {
+            case 'alwaysClosed':
+                this.naviDrawer = false
+                break
+
+            case 'lastState':
+                this.naviDrawer = (localStorage.getItem('naviDrawer') ?? 'true') === 'true'
+                break
+
+            default:
+                this.naviDrawer = this.$vuetify.breakpoint.lgAndUp
+        }
+    }
+
     btnEmergencyStop() {
         const confirmOnEmergencyStop = this.$store.state.gui.uiSettings.confirmOnEmergencyStop
-        if (confirmOnEmergencyStop) {
-            this.showEmergencyStopDialog = true
-        } else {
-            this.emergencyStop()
-        }
+        if (!confirmOnEmergencyStop) this.emergencyStop()
+
+        this.showEmergencyStopDialog = true
     }
 
     emergencyStop() {
@@ -360,14 +378,13 @@ export default class TheTopbar extends Mixins(BaseMixin) {
 }
 </script>
 
-<style>
+<style scoped>
 /*noinspection CssUnusedSymbol*/
-.topbar .v-toolbar__content {
+::v-deep .topbar .v-toolbar__content {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
 }
-</style>
-<style scoped>
+
 .button-min-width-auto {
     min-width: auto !important;
 }
